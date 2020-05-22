@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
-import {Button, Form, FormGroup, Input, Label, InputGroup, InputGroupAddon, InputGroupText, FormText} from 'reactstrap';
+import {Button, Form, FormGroup, Input, Label, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import '../App.css';
 import Dashboard from './Dashboard';
 import LogIn from './LogIn';
@@ -22,6 +22,13 @@ function Registration() {
         <Input placeholder="first and last name" />
       </InputGroup>
       <br />
+      <InputGroup>
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>Username</InputGroupText>
+        </InputGroupAddon>
+        <Input placeholder="choose your username" />
+      </InputGroup>
+      <br />
       <FormGroup>
       
         <Label for="exampleEmail">Email</Label>
@@ -32,7 +39,7 @@ function Registration() {
         <Input type="password" name="password" id="examplePassword" placeholder="create password" />
       </FormGroup>
       <FormGroup>
-        <Label for="exampleSelect">Select</Label>
+        <Label for="exampleSelect">What kind of experience would you like?</Label>
         <Input type="select" name="select" id="exampleSelect">
           <option>Basic Account</option>
           <option>Premium Ad Free</option>
@@ -40,7 +47,7 @@ function Registration() {
       </FormGroup>
 
       <FormGroup tag="fieldset">
-        <legend>Radio Buttons</legend>
+        <legend>Required</legend>
         <FormGroup check>
           <Label check>
             <Input type="radio" name="radio1" />{' '}

@@ -4,21 +4,21 @@ import Dashboard from './components/Dashboard';
 import LogIn from './components/LogIn';
 import Registration from './components/Registration';
 import './App.css';
-import logo from './logo.svg';
+import logo from './how-to-logo.png';
+import {Jumbotron} from 'reactstrap'
 
 function App(){
   return (
     <Router>
     <div className="App">
       <header className="App-header">
-        <h1 className="display-3">Welcome to How-To:</h1>
+        <Jumbotron>
         <Link to="/">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App" alt="logo" />
         </Link>
-         <h2 className="lead">Ready to build a better you?</h2>
-
-
-
+        
+         <h1 >Ready to build a better you?</h1>
+         </Jumbotron>
         <Switch>
           <Route path="/userlogin">
             <LogIn />
