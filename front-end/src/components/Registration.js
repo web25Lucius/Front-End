@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import '../App.css';
@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import LogIn from './LogIn';
 
 function Registration() {
+  const [fname, setFname] = useState('');
   return (
     <div className="App">
       <header className="App-header">
@@ -17,9 +18,14 @@ function Registration() {
        <Form>
        <InputGroup>
         <InputGroupAddon addonType="prepend">
+          <Label for="fullname" >
           <InputGroupText>Full Name</InputGroupText>
+          </Label>
         </InputGroupAddon>
-        <Input placeholder="first and last name" />
+        <Input id="fullname" name="fullname" placeholder="first and last name"   onChange={event=>{
+          setFname(event.target.value);
+          debugger
+        }} />
       </InputGroup>
       <br />
       <InputGroup>
@@ -31,7 +37,7 @@ function Registration() {
       <br />
       <FormGroup>
       
-        <Label for="exampleEmail">Email</Label>
+        <Label for="email">Email</Label>
         <Input type="email" name="email" id="exampleEmail" placeholder="email address" />
       </FormGroup>
       <FormGroup>
@@ -84,17 +90,6 @@ function Registration() {
         <Link to="/userlogin">
             <p>Already have an account? Click here to Sign in.</p>
           </Link>
-
-        {/* <span> Still not sure?  While you're here, why not &nbsp; 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-         this is the registration page
-        </a>
-        </span> */}
       </header>
     </div>
   );
