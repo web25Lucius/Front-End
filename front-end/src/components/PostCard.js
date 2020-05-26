@@ -5,28 +5,32 @@ import LogIn from './LogIn';
 import Registration from './Registration';
 import '../App.css';
 import {Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle} from 'reactstrap'
+    CardTitle, CardSubtitle} from 'reactstrap';
+import fakeData from './fakeData';
 
-function PostCard(props){
+function PostCard(){
   return (
     <Router>
     <div className="App">
       <header className="App-header">
-      <div>
-      <Card>
-        <CardBody>
-          <CardTitle>{props.title}</CardTitle>
-          <CardSubtitle>{props.username}</CardSubtitle>
-        </CardBody>
-        <CardImg width="100%" src={props.img} alt={props.title}/>
-        <CardBody>
-          <CardText>{props.posttext}</CardText>
-          <Link to="#">Like</Link>
-          <Link to="#">Comment </Link>
-        </CardBody>
-      </Card>
-    </div>
-        
+      {fakeData.map((element, key)=>{
+        console.log(element)
+           return (
+            <Card>
+              <CardBody>
+                <CardTitle>{element.title}</CardTitle>
+                <CardSubtitle>{element.username}</CardSubtitle>
+              </CardBody>
+             <CardImg width="100%" src={element.img} alt={element.title}/>
+             <CardBody>
+             <CardText key={element.id}>{element.posttext}</CardText>
+              <Link to="#">{element.likes}</Link>
+              <Link to="#">Comment </Link>
+            </CardBody>
+           </Card>
+           )
+         })};
+        </header>
          
         <Switch>
           <Route path="/userlogin">
@@ -35,15 +39,16 @@ function PostCard(props){
           <Route path="/registration">
             <Registration />
           </Route>
-          <Route exact path="/">
+          <Route path="/dashboard">
             <Dashboard/>
           </Route>
         </Switch>
           
-      </header>
+      
     </div>
     </Router>
   );
 }
 
 export default PostCard;
+

@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import LogIn from './LogIn';
 import axios from 'axios';
 import * as yup from 'yup';  
+import LandingPage from './LandingPage';
 
 
 
@@ -136,17 +137,20 @@ function Registration() {
         {errorState.passwordConfirmation.length > 0 ? <Alert color="danger">{errorState.passwordConfirmation}</Alert> : null}
       </FormGroup>
      
-      <Button disabled={greyButton}>Submit</Button>
+     <Link to="/landingpage"><Button disabled={greyButton}>Submit</Button></Link> 
     </Form>
 
 
 
         <Switch>
-          <Route exact path="/">
+          <Route path="/dashboard">
             <Dashboard />
           </Route>
          <Route path="/userlogin">
             <LogIn/>
+        </Route>
+        <Route path="/landingpage">
+          <LandingPage />
         </Route>
         </Switch>
 

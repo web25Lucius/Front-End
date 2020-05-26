@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Registration from './Registration';
+import LandingPage from './LandingPage'
 import {Button, Form, Input, Label, InputGroup, InputGroupAddon, InputGroupText, Alert} from 'reactstrap';
 import '../App.css';
 import axios from 'axios';
@@ -15,12 +16,12 @@ import * as yup from 'yup';
 
 let formSchema = yup.object().shape({
   username: yup.string().min(6, 'username must contain at least 6 characters').required('username is required to continue'),
-  password: yup.string().min(8, 'password must contain 8 charaters').required('must submit a password to continue')
+  password: yup.string().min(8, 'password must contain 8 charaters').required('must submit a password to continue.  click grey submit button.')
 });
 
 
 
-function LogIn(props) {
+function LogIn() {
   const [lFData, setLFData] = useState({
     
     username: "", 
@@ -63,16 +64,16 @@ function LogIn(props) {
   };
 
   const onSubmit= (event) => {
-   
     event.preventDefault()
     event.persist()
     validate(event)
-    
+    debugger
     
     axios
     .post("https://reqres.in/api/users",lFData)
-    .then(response => console.log(`log in complete- username: ${lFData.username} has returned to How To:`, response))
-    .catch(err => console.log("Error submitted registration for How To:", err))
+    .then(response => 
+      console.log(`log in complete- username: ${lFData.username} has returned to How To:`, response))
+    .catch(err => console.log("Error submitting sign in for How To:", err))
   };
 
   
@@ -109,21 +110,30 @@ function LogIn(props) {
        
         {errorState.password.length > 0 ? <Alert color="danger">{errorState.password}</Alert> : null}
       </InputGroup>
-     
+      <br />
+      
+      <Link to="/landingpage">
       <Button disabled={greyButton}>Submit</Button>
+      </Link>
+     
       
     </Form>
 
 
 
         <Switch>
-          <Route exact path="/">
+          <Route path="/dashboard">
             <Dashboard />
           </Route>
          <Route path="/registration">
             <Registration/>
         </Route>
+        <Route path="/landingpage">
+          <LandingPage />
+        </Route>
         </Switch>
+
+       
 
         <Link to="/registration">
           <br />
