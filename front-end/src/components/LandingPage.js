@@ -1,12 +1,10 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Dashboard from './Dashboard';
 import LogIn from './LogIn';
 import Registration from './Registration';
 
 import '../App.css';
-import logo from '../how-to-logo.png';
-import {Jumbotron} from 'reactstrap'
 import PostCard from './PostCard';
 
 function LandingPage(props){
@@ -24,7 +22,7 @@ function LandingPage(props){
           <Route path="/registration">
             <Registration />
           </Route>
-          <Route exact path="/dashboard">
+          <Route path="/dashboard">
             <Dashboard/>
           </Route>
         </Switch>

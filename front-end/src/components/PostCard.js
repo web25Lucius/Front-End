@@ -13,6 +13,7 @@ function PostCard(){
     <Router>
     <div className="App">
       <header className="App-header">
+        <div>
       {fakeData.map((element, key)=>{
         console.log(element)
            return (
@@ -30,6 +31,7 @@ function PostCard(){
            </Card>
            )
          })};
+         </div>
         </header>
          
         <Switch>
