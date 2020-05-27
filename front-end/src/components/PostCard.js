@@ -25,8 +25,8 @@ function PostCard(){
              <CardImg width="100%" src={element.img} alt={element.title}/>
              <CardBody>
              <CardText key={element.id}>{element.posttext}</CardText>
-              <Link to="#">{element.likes}</Link>
-              <Link to="#">Comment </Link>
+              <Link to="#">{element.likes}</Link> 
+              <Link to="#">&nbsp; Comment </Link>
             </CardBody>
            </Card>
            )

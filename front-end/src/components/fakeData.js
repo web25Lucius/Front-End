@@ -1,4 +1,5 @@
-// import react from 'react';
+
+import logo from '../logo.svg'
 
 const fakeData = [
    
@@ -7,7 +8,7 @@ const fakeData = [
         {
         title: "first post", 
         username: "FrenchWrench",
-        img: "../logo.svg", 
+        img: {logo}, 
         posttext: "is this dress blue or gold?", 
         likes: 40,
             id: 1

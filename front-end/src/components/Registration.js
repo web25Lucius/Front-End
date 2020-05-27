@@ -74,7 +74,7 @@ function Registration() {
     
     
     axios
-    .post("https://reqres.in/api/users",fdata)
+    .post("https://lambda-howto.herokuapp.com/",fdata)
     .then(response => console.log(`registration submitted- username: ${fdata.username} has joined How To:`, response))
     .catch(err => console.log("Error submitted registration for How To:", err))
   };
@@ -102,7 +102,7 @@ function Registration() {
           <InputGroupText>Full Name</InputGroupText>
           </Label>
         </InputGroupAddon>
-        <Input id="fullname" name="fullname" placeholder="first and last name" value={fdata.fullname}  onChange={onChange} />
+        <Input aria-label="full name" aria-required="true" id="fullname" name="fullname" placeholder="first and last name" value={fdata.fullname}  onChange={onChange} />
         {errorState.fullname.length > 0 ? <Alert color="danger">{errorState.fullname}</Alert> : null}
       </InputGroup>
       <br />
@@ -112,27 +112,27 @@ function Registration() {
           <InputGroupText>Username</InputGroupText>
           </Label>
         </InputGroupAddon>
-        <Input   id="username" name="username"  placeholder="choose your username" value={fdata.username} onChange={onChange}/>
+        <Input aria-label="username" aria-required="true"  id="username" name="username"  placeholder="choose your username" value={fdata.username} onChange={onChange}/>
         {errorState.username.length > 0 ? <Alert color="danger">{errorState.username}</Alert> : null}
       </InputGroup>
       <br />
       <FormGroup>
       
         <Label for="email">Email</Label>
-        <Input type="email" id="email" name="email"  placeholder="email address" value={fdata.email} onChange={onChange} />
+        <Input aria-label="email address" aria-required="true" type="email" id="email" name="email"  placeholder="email address" value={fdata.email} onChange={onChange} />
         {errorState.email.length > 0 ? <Alert color="danger">{errorState.email}</Alert> : null}
       </FormGroup>
       <FormGroup>
         <Label for="password">Password</Label>
         
-        <Input type="password" id="password" name="password"  placeholder="create password" value={fdata.password} onChange={onChange}  /> 
+        <Input aria-label="password" aria-required="true" type="password" id="password" name="password"  placeholder="create password" value={fdata.password} onChange={onChange}  /> 
        
         {errorState.password.length > 0 ? <Alert color="danger">{errorState.password}</Alert> : null}
       </FormGroup>
       <FormGroup>
         <Label for="passwordConfirmation">Password confirmation</Label>
         
-        <Input type="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation"  placeholder="confirm password" value={fdata.passwordConfirmation} onChange={onChange} />
+        <Input aria-label="password confirmation" aria-required="true" type="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation"  placeholder="confirm password" value={fdata.passwordConfirmation} onChange={onChange} />
         
         {errorState.passwordConfirmation.length > 0 ? <Alert color="danger">{errorState.passwordConfirmation}</Alert> : null}
       </FormGroup>

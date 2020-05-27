@@ -4,10 +4,10 @@ import Dashboard from './components/Dashboard';
 import LogIn from './components/LogIn';
 import Registration from './components/Registration';
 import LandingPage from './components/LandingPage';
-
+import cook from './components/img/cook.jpg'
 import './App.css';
 import logo from './how-to-logo.png';
-import {Jumbotron} from 'reactstrap'
+import {Jumbotron , Card, CardTitle, CardText, CardImg, CardImgOverlay} from 'reactstrap'
 
 function App(){
   return (
@@ -21,7 +21,18 @@ function App(){
         
          <h1> <br /> Ready to build a better you?</h1>
          </Jumbotron>
-
+         <div>
+          <Card inverse>
+            <CardImg width="100%" src={cook} alt="Card image cap" />
+            <CardImgOverlay>
+              <CardTitle>CanadianCoins</CardTitle>
+              <CardText>This is what I made my partner for our anniversary.  I never cook. </CardText>
+              <CardText>
+                <small className="text-muted">Last updated 3 mins ago</small>
+              </CardText>
+            </CardImgOverlay>
+          </Card>
+        </div>
 
          
 

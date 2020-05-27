@@ -70,7 +70,7 @@ function LogIn() {
     debugger
     
     axios
-    .post("https://reqres.in/api/users",lFData)
+    .post("https://lambda-howto.herokuapp.com/",lFData)
     .then(response => 
       console.log(`log in complete- username: ${lFData.username} has returned to How To:`, response))
     .catch(err => console.log("Error submitting sign in for How To:", err))
@@ -100,13 +100,13 @@ function LogIn() {
           <InputGroupText>username</InputGroupText>
           </Label>
         </InputGroupAddon>
-        <Input  id="username" name="username"  placeholder="enter your username" value={lFData.username} onChange={onChange}/>
+        <Input  aria-label="username" aria-required="true" id="username" name="username"  placeholder="enter your username" value={lFData.username} onChange={onChange}/>
         {errorState.username.length > 0 ? <Alert color="danger">{errorState.username}</Alert> : null}
       </InputGroup>
       <br />
       <InputGroup>
       <InputGroupAddon addonType="prepend"><Label for="password"><InputGroupText>password</InputGroupText></Label></InputGroupAddon>
-        <Input type="password" id="password" name="password"  placeholder="enter password" value={lFData.password} onChange={onChange}  /> 
+        <Input aria-label="password" aria-required="true" type="password" id="password" name="password"  placeholder="enter password" value={lFData.password} onChange={onChange}  /> 
        
         {errorState.password.length > 0 ? <Alert color="danger">{errorState.password}</Alert> : null}
       </InputGroup>
