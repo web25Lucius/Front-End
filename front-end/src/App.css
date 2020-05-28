@@ -35,6 +35,7 @@
   font-size: calc(10px + 2vmin);
   color: #0A3749;
   width: 90%;
+  opacity: .6;
 }
 
 .App-link {

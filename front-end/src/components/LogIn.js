@@ -1,22 +1,22 @@
 
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
+import {BrowserRouter as Route, Link, Switch, Redirect} from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Registration from './Registration';
 import LandingPage from './LandingPage'
 import {Button, Form, Input, Label, InputGroup, InputGroupAddon, InputGroupText, Alert} from 'reactstrap';
 import '../App.css';
 import axios from 'axios';
-import * as yup from 'yup';  
+import * as Yup from 'yup';  
 
 
 
 
 
 
-let formSchema = yup.object().shape({
-  username: yup.string().min(6, 'username must contain at least 6 characters').required('username is required to continue'),
-  password: yup.string().min(8, 'password must contain 8 charaters').required('must submit a password to continue.  click grey submit button.')
+const formSchema = Yup.object().shape({
+  username: Yup.string().min(6, 'username must be least 6 characters').required('username is required'),
+  password: Yup.string().min(8, 'password must contain 8 charaters').required('must submit a password to continue.  click grey submit button.')
 });
 
 
@@ -28,52 +28,58 @@ function LogIn() {
     password: ""
     
   });
-
-
-  const [greyButton, setGreyButton] = useState(true);
-  useEffect(()=>{
-    formSchema.isValid(lFData).then(valid => {
-      setGreyButton(!valid);
-    });
-  }, [lFData]);
-
+  const [postlfData, setPostlfData] = useState ({});
   const [errorState, setErrorState] = useState({
    
     username: "", 
     password: ""
   });
+ const [greyButton, setGreyButton] = useState(true);
 
+  useEffect(()=>{
+    formSchema.isValid(lFData).then(valid => {
+      setGreyButton(!valid);
+    });
+  }, [lFData])
 
-
-
+ 
   const validate = (event) =>{
-  yup.reach(formSchema, event.target.name)
+  Yup.reach(formSchema, event.target.name)
      .validate(event.target.value)
      .then(valid => {
       setErrorState({
         ...errorState, 
         [event.target.name]:""
-      })
+      });
      })
      .catch( err => {
       setErrorState({
-        ...errorState, [event.target.name]: err.errors[0]
-      })
-     })
+        ...errorState, 
+        [event.target.name]: err.errors[0]
+      });
+    });
+      setLFData({
+        ...lFData,
+        [event.target.name]: event.target.value
 
-  };
+     });
+    
+    }
+ 
 
-  const onSubmit= (event) => {
+  const formSubmit= (event) => {
     event.preventDefault()
-    event.persist()
     validate(event)
     debugger
     
     axios
-    .post("https://lambda-howto.herokuapp.com/",lFData)
-    .then(response => 
-      console.log(`log in complete- username: ${lFData.username} has returned to How To:`, response))
-    .catch(err => console.log("Error submitting sign in for How To:", err))
+    .post("https://lambda-howto.herokuapp.com/", lFData)
+    .then(res => {
+      setPostlfData(res.data);
+      console.log(`log in complete`, res);
+      return (postlfData === res.data ? <Redirect push to="/landingpage" >{Button}</Redirect> : null); 
+    })
+    .catch(err => console.log("Error submitting sign in for How To:", err.res))
   };
 
   
@@ -92,7 +98,7 @@ function LogIn() {
     <div className="App">
       <header className="App-header">
        
-       <Form onSubmit={onSubmit}>
+       <Form onSubmit={formSubmit}>
        
       <InputGroup>
         <InputGroupAddon addonType="prepend">
@@ -112,9 +118,9 @@ function LogIn() {
       </InputGroup>
       <br />
       
-      <Link to="/landingpage">
+     
       <Button disabled={greyButton}>Submit</Button>
-      </Link>
+      
      
       
     </Form>
@@ -147,287 +153,16 @@ function LogIn() {
 export default LogIn;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function LogIn () {
-//   const [data, setData] = useState({
-//     username:"",
-//     password:""
-//   });
-
-   
-//   const formSubmit = (event) =>{
-//     event.preventDefault();
-//     axios
-//     .post("https://lambda-howto.herokuapp.com/", {data})
-//     .then(res => {
-//       setData(res.data); 
-//       console.log(`How To returning member username:${data.username} password:${data.password}`, res);
-    
-//     })
-//     .catch(err => console.log(err.response));
-//   };
-
-//     const valueChange = (event)=>{
-//       event.persist();
-    
-//       setData({
-//         ...data,
-//         [event.target.username]: event.target.value,
-//         [event.target.password]: event.target.value
-//       });
-
-//   };
-
- 
-
-
-
-
-//   return (
-//     <Router>
-
-//     <div className="App">
-//      <header className="App-header">
-
-//       <Form onSubmit={formSubmit}>
-
-//        <InputGroup>
-//         <InputGroupAddon addonType="prepend">
-//          <Label for="username">username: &nbsp; </Label>
-//         </InputGroupAddon>
-//         <Input id="username" name="username" value={data.username} onChange={valueChange} placeholder="enter username" />
-         
-//        </InputGroup>
-
-//       <br />
-
-//        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-//         <InputGroupAddon addonType="prepend">
-//          <Label for="password" className="mr-sm-2">password:</Label>
-//         </InputGroupAddon>
-//         <Input onChange={valueChange} type="password" name="password" id="password" placeholder="enter password" />
+// useEffect(()=> {
+//   formSchema.isValid(formState).then(valid=> {
+//       // setButtonDisabled(!valid);
+//       <Redirect to="/" />
       
-//       </FormGroup>
-
-
-//       <p><Button >Submit</Button></p>
-
-//       </Form>
-
-
-//       <h6><Link to="/registration">Don't have an account? Sign up</Link></h6>
-
-
-//         <Switch>
-//           <Route exact path="/">
-//             <Dashboard />
-//           </Route>    
-//           <Route path="/registration">
-//               <Registration />
-//           </Route>
-//         </Switch>
-//       </header>
-//     </div>
-//   </Router>
-//   );
-// }
-
-// export default LogIn;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, {useState, useEffect} from 'react';
-// import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
-// import Dashboard from './Dashboard';
-// import Registration from './Registration';
-// import { Button , Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-// import '../App.css';
-// import axios from 'axios';
-// import * as yup from "yup";
-// // import LandingPage from './LandingPage';
-
-// const formSchema = yup.object().shape({
-//   username: yup.string().min(2, "username must be at last two characters").required("required field"),
-//   password: yup.string().min(6, "password must be at least 6 characters long").required("required field")
-// });
-
-// function LogIn () {
-//   const [data, setData] = useState({
-//     username:"",
-//     password:""
 //   });
-
-//   useEffect(()=>{
-//     formSchema.isValid(data).then(valid =>{
-//       console.log(valid, "data is verified");
-//     });
-//   },[data]);    
-
-//  const [errorState, setErrorState] = useState({
-
-//   username:"",
-//   password:""
-// });
+// }, [postState])
 
 
-// const formSubmit = (event) =>{
-//   event.preventDefault();
-//   axios
-//   .post(" https://lambda-howto.herokuapp.com/", data)
-//   .then(res => {
-//     setData(res.data); 
-//     console.log(`How To returning member username:${data.username} password:${data.password}`, res);
-  
-//   })
-//   .catch(err => console.log(err.response));
-// };
-
-//   const valueChange = (event)=>{
-//     event.persist();
-   
-//     setData({
-//       ...data,
-//       [event.target.username]: event.target.value,
-//       [event.target.password]: event.target.value
-//     });
-
-//     formSchema.validate({username: '', password: ''}).then(function(value){
-//       console.log(value);
-//     });
-    
-//     formSchema.validate({username: '', password: ''}).catch(function(err){
-//       err.username('ValidationError');
-//       err.errors('ValidationError');
-//     });
-
-//    setErrorState({
-//      ...errorState,
-//      [event.target.name]: errorState.errors[0]
-//    });
-
-   
-
-//   };
-
- 
-
-
-
-
-//   return (
-//     <Router>
-
-//     <div className="App">
-//      <header className="App-header">
-
-//       <Form onSubmit={formSubmit}>
-
-//        <InputGroup>
-//         <InputGroupAddon addonType="prepend">
-//          <Label for="username">username: &nbsp; </Label>
-//         </InputGroupAddon>
-//         <Input id="username" name="username" value={data.username} onChange={valueChange} placeholder="enter username" />
-//           {errorState.username.length< 2 ? (<p className="error"> {errorState.username} </p>):null}
-//        </InputGroup>
-
-//       <br />
-
-//        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-//         <InputGroupAddon addonType="prepend">
-//          <Label for="password" className="mr-sm-2">password:</Label>
-//         </InputGroupAddon>
-//         <Input onChange={valueChange} type="password" name="password" id="password" placeholder="enter password" />
-//         {errorState.password.length< 6 ? (<p className="error"> {errorState.password} </p>):null}
-//       </FormGroup>
-
-
-//       <p><Button >Submit</Button></p>
-
-//       </Form>
-
-
-//       <h6><Link to="/registration">Don't have an account? Sign up</Link></h6>
-
-
-//         <Switch>
-//           <Route exact path="/">
-//             <Dashboard />
-//           </Route>    
-//           <Route path="/registration">
-//               <Registration />
-//           </Route>
-//         </Switch>
-//       </header>
-//     </div>
-//   </Router>
-//   );
-// }
-
-// export default LogIn;
+//   setFormState({
+//     ...formState,
+//     [e.target.name]: e.target.value
+//   });
