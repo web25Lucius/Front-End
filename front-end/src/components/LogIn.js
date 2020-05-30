@@ -42,6 +42,8 @@ function LogIn() {
     });
   }, [lFData])
 
+  // useEffect(() => {History.push("/landingpage")}, []);
+
  
   const validate = (event) =>{
   Yup.reach(formSchema, event.target.name)
@@ -58,6 +60,7 @@ function LogIn() {
         [event.target.name]: err.errors[0]
       });
     });
+
       setLFData({
         ...lFData,
         [event.target.name]: event.target.value
@@ -70,18 +73,17 @@ function LogIn() {
   const formSubmit= (event) => {
     event.preventDefault()
     validate(event)
-    debugger
-    
-    axios
+     axios
     .post("https://lambda-howto.herokuapp.com/", lFData)
     .then(res => {
-      setPostlfData(res.data);
-      console.log(`log in complete`, res);
+      setPostlfData(res.data)
+      console.log(`log in complete`, res)
+      History.push("/landingpage")
     })
     .catch(err => console.log("Error submitting sign in for How To:", err.res))
-  };
-
   
+  }
+
   const onChange= event =>{
     event.persist()
     validate(event)
@@ -90,7 +92,7 @@ function LogIn() {
      ...lFData,[event.target.name]: event.target.value});
   };
 
- const location = ()  => <Redirect push to="/landingpage"/> ; 
+//  const location = ()  => <Redirect push to="/landingpage"/> ; 
   
 
  
@@ -119,7 +121,7 @@ function LogIn() {
       <br />
       
      
-      <Button disabled={greyButton} onClick={location}>Submit</Button>
+      <Button  disabled={greyButton}>Submit</Button>
       </Form>
 
         <Switch>
@@ -150,6 +152,7 @@ function LogIn() {
   );
 }
 
+
 export default LogIn;
 
 
@@ -166,4 +169,6 @@ export default LogIn;
 //     ...formState,
 //     [e.target.name]: e.target.value
 //   });<Redirect to={location =>({...location, pathname: "/landingpage"})}></Redirect>
+
+// useEffect(() => {History.push("/landingpage")}, []);
 

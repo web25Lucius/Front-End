@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
+// import {createBrowserHistory} from "history";
 import {Button, Form, FormGroup, Input, Label, InputGroup, InputGroupAddon, InputGroupText, Alert} from 'reactstrap';
 import '../App.css';
 import Dashboard from './Dashboard';
@@ -137,7 +138,7 @@ function Registration() {
         {errorState.passwordConfirmation.length > 0 ? <Alert color="danger">{errorState.passwordConfirmation}</Alert> : null}
       </FormGroup>
      
-     <Link to="/landingpage"><Button disabled={greyButton}>Submit</Button></Link> 
+     <Button onclick={()=>History.push("/landingpage")} disabled={greyButton} >Submit</Button>
     </Form>
 
 
@@ -163,3 +164,5 @@ function Registration() {
 }
 
 export default Registration;
+
+// onclick={()=>history.push("/landingpage")}

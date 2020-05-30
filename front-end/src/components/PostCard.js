@@ -20,17 +20,17 @@ function PostCard(){
             <Card>
               <CardBody>
                 <CardTitle>{element.title}</CardTitle>
-                <CardSubtitle>{element.username}</CardSubtitle>
+                <CardSubtitle>by: {element.username}</CardSubtitle>
               </CardBody>
              <CardImg width="100%" src={element.img} alt={element.title}/>
              <CardBody>
              <CardText key={element.id}>{element.posttext}</CardText>
-              <Link to="#">{element.likes}</Link> 
+              <Link to="#">Likes: {element.likes}</Link> 
               <Link to="#">&nbsp; Comment </Link>
             </CardBody>
            </Card>
            )
-         })};
+         })}
          </div>
         </header>
          
