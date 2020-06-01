@@ -63,7 +63,7 @@ function App(){
           <Route path="/dashboard">
             <Dashboard/>
           </Route>
-          <Route path="/landingpage">
+          <Route exact path="/landingpage">
          <LandingPage />
         </Route>
         </Switch>

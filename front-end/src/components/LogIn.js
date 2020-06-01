@@ -1,9 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Route, Link, Switch, Redirect} from 'react-router-dom';
-import Dashboard from './Dashboard';
-import Registration from './Registration';
-import LandingPage from './LandingPage'
+import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router';
 import {Button, Form, Input, Label, InputGroup, InputGroupAddon, InputGroupText, Alert} from 'reactstrap';
 import '../App.css';
 import axios from 'axios';
@@ -23,12 +21,13 @@ const formSchema = Yup.object().shape({
 
 function LogIn() {
   const [lFData, setLFData] = useState({
-    
     username: "", 
     password: ""
     
   });
+
   const [postlfData, setPostlfData] = useState ({});
+  const history = useHistory();
   const [errorState, setErrorState] = useState({
    
     username: "", 
@@ -42,9 +41,7 @@ function LogIn() {
     });
   }, [lFData])
 
-  // useEffect(() => {History.push("/landingpage")}, []);
 
- 
   const validate = (event) =>{
   Yup.reach(formSchema, event.target.name)
      .validate(event.target.value)
@@ -72,17 +69,18 @@ function LogIn() {
 
   const formSubmit= (event) => {
     event.preventDefault()
+    event.persist()
     validate(event)
      axios
-    .post("https://lambda-howto.herokuapp.com/", lFData)
-    .then(res => {
+     .post("https://reqres.in/api/users", lFData)
+    // .post("https://lambda-howto.herokuapp.com/", lFData)
+     .then(res => {
       setPostlfData(res.data)
       console.log(`log in complete`, res)
-      History.push("/landingpage")
+      return history.push("/landingpage")
     })
-    .catch(err => console.log("Error submitting sign in for How To:", err.res))
-  
-  }
+    .catch(err => console.log("Error submitting sign in for How To:", err)
+    )}
 
   const onChange= event =>{
     event.persist()
@@ -92,8 +90,7 @@ function LogIn() {
      ...lFData,[event.target.name]: event.target.value});
   };
 
-//  const location = ()  => <Redirect push to="/landingpage"/> ; 
-  
+
 
  
   return (
@@ -121,28 +118,10 @@ function LogIn() {
       <br />
       
      
-      <Button  disabled={greyButton}>Submit</Button>
+      <Button type="submit" disabled={greyButton}>Submit</Button>
       </Form>
 
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-         <Route path="/registration">
-            <Registration/>
-        </Route>
-        <Route path="/landingpage">
-          <LandingPage />
-        </Route>
-        </Switch>
-        <Switch>
-        <Redirect from='/login' to='/landingpage' />
-        <Route path='/landingpage'>
-          <LandingPage />
-        </Route>
-        </Switch>
-       
-
+        
         <Link to="/registration">
           <br />
             <p>Need an account? Click here to Sign up.</p>

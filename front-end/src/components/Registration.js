@@ -1,22 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Route, Link, Switch} from 'react-router-dom';
-// import {createBrowserHistory} from "history";
+import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router';
 import {Button, Form, FormGroup, Input, Label, InputGroup, InputGroupAddon, InputGroupText, Alert} from 'reactstrap';
 import '../App.css';
-import Dashboard from './Dashboard';
-import LogIn from './LogIn';
 import axios from 'axios';
-import * as yup from 'yup';  
-import LandingPage from './LandingPage';
+import * as Yup from 'yup';  
 
 
 
-let formSchema = yup.object().shape({
-  fullname: yup.string().min(2, 'name must be more than 2 characters').required('name is required to continue'),
-  username: yup.string().min(6, 'username must contain at least 6 characters').required('username is required to continue'),
-  email: yup.string().email('valid email is required to continue').required('email is required'),
-  password: yup.string().min(8, 'password must contain 8 charaters').required('must create a password to continue'), 
-  passwordConfirmation: yup.string().oneOf([yup.ref('password'),null], 'when all forms are completed, please click grey submit button').required('please confirm')
+
+const formSchema = Yup.object().shape({
+  fullname: Yup.string().min(2, 'name must be more than 2 characters').required('name is required to continue'),
+  username: Yup.string().min(6, 'username must contain at least 6 characters').required('username is required to continue'),
+  email: Yup.string().email('valid email is required to continue').required('email is required'),
+  password: Yup.string().min(8, 'password must contain 8 charaters').required('must create a password to continue'), 
+  passwordConfirmation: Yup.string().oneOf([Yup.ref('password'),null], 'when all forms are completed, please click grey submit button').required('please confirm')
 });
 
 
@@ -29,9 +27,9 @@ function Registration() {
     password: "", 
     passwordConfirmation: ""
   });
-
-
-  const [greyButton, setGreyButton] = useState(true);
+ const [postFData, setPostFData] = useState({});
+ const history = useHistory();
+ const [greyButton, setGreyButton] = useState(true);
   useEffect(()=>{
     formSchema.isValid(fdata).then(valid => {
       setGreyButton(!valid);
@@ -51,7 +49,7 @@ function Registration() {
 
 
   const validate = (event) =>{
-  yup.reach(formSchema, event.target.name)
+  Yup.reach(formSchema, event.target.name)
      .validate(event.target.value)
      .then(valid => {
       setErrorState({
@@ -75,8 +73,12 @@ function Registration() {
     
     
     axios
-    .post("https://lambda-howto.herokuapp.com/",fdata)
-    .then(response => console.log(`registration submitted- username: ${fdata.username} has joined How To:`, response))
+    .post("https://reqres.in/api/users",fdata)
+    .then(response => {
+      setPostFData(response.data)
+      console.log(`registration submitted- username: ${fdata.username} has joined How To:`, response)
+      return history.push("/landingpage")
+    })
     .catch(err => console.log("Error submitted registration for How To:", err))
   };
 
@@ -89,6 +91,7 @@ function Registration() {
      ...fdata,[event.target.name]: event.target.value});
   };
 
+  
   
 
  
@@ -138,22 +141,8 @@ function Registration() {
         {errorState.passwordConfirmation.length > 0 ? <Alert color="danger">{errorState.passwordConfirmation}</Alert> : null}
       </FormGroup>
      
-     <Button onclick={()=>History.push("/landingpage")} disabled={greyButton} >Submit</Button>
+     <Button type="submit" disabled={greyButton} >Submit</Button>
     </Form>
-
-
-
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-         <Route path="/userlogin">
-            <LogIn/>
-        </Route>
-        <Route path="/landingpage">
-          <LandingPage />
-        </Route>
-        </Switch>
 
         <Link to="/userlogin">
             <p>Already have an account? Click here to Sign in.</p>
